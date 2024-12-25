@@ -37,9 +37,15 @@ object MysteryApi {
         return result.contains("working")
     }
 
-    private suspend fun postNetwork(method: String): String = Fuel.post(
-        "$URL$PATH",
-        body = "{ \"method\" : \"$method\" }",
-        headers = headers
-    ).source.readString()
+    private suspend fun postNetwork(method: String): String {
+        return try {
+            Fuel.post(
+                "$URL$PATH",
+                body = "{ \"method\" : \"$method\" }",
+                headers = headers
+            ).source.readString()
+        } catch (_: Exception) {
+            ""
+        }
+    }
 }
